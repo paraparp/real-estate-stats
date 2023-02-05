@@ -1,11 +1,11 @@
-package com.paraparp.realestatestats.model.entity;
+package com.paraparp.realestatestats.model.idealista;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Ad {
+public class AdDTO {
 
     @JsonProperty("adId")
     public long adId;

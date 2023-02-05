@@ -1,4 +1,4 @@
-package com.paraparp.realestatestats.model.entity;
+package com.paraparp.realestatestats.model.idealista;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -17,10 +17,10 @@ import java.util.List;
     "type"
 })
 @Data
-public class Item {
+public class ItemDTO {
 
     @JsonProperty("ads")
-    public List<Ad> ads = new ArrayList<>();
+    public List<AdDTO> ads = new ArrayList<>();
     @JsonProperty("latitude")
     public double latitude;
     @JsonProperty("longitude")

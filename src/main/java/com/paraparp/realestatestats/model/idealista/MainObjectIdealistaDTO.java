@@ -1,4 +1,4 @@
-package com.paraparp.realestatestats.model.entity;
+package com.paraparp.realestatestats.model.idealista;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 @lombok.Data
-public class MainObject {
+public class MainObjectIdealistaDTO {
 
     @JsonProperty("result")
     public String result;
@@ -19,7 +19,7 @@ public class MainObject {
     @JsonProperty("globalErrors")
     public List<Object> globalErrors = null;
     @JsonProperty("data")
-    public Data data;
+    public DataDTO data;
     @JsonProperty("markupResponseData")
     public List<Object> markupResponseData = null;
     @JsonProperty("dataLayerEvent")

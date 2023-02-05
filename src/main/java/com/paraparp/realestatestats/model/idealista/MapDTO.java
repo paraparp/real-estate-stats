@@ -1,4 +1,4 @@
-package com.paraparp.realestatestats.model.entity;
+package com.paraparp.realestatestats.model.idealista;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Map {
+public class MapDTO {
 
     @JsonProperty("centreLat")
     public double centreLat;
@@ -28,6 +28,6 @@ public class Map {
     @JsonProperty("zoomLevel")
     public long zoomLevel;
     @JsonProperty("items")
-    public List<Item> items = new ArrayList<>();
+    public List<ItemDTO> items = new ArrayList<>();
 
 }

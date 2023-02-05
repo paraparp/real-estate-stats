@@ -1,10 +1,10 @@
-package com.paraparp.realestatestats.model.entity;
+package com.paraparp.realestatestats.model.idealista;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Data {
+public class DataDTO {
 
     @JsonProperty("valueH1")
     public String valueH1;
@@ -33,6 +33,6 @@ public class Data {
     @JsonProperty("existAlert")
     public boolean existAlert;
     @JsonProperty("map")
-    public Map map;
+    public MapDTO map;
 
 }
