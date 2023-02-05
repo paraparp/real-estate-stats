@@ -1,7 +1,7 @@
-package com.paraparp.realstatestats.controller;
+package com.paraparp.realestatestats.controller;
 
 
-import com.paraparp.realstatestats.services.IdealistaService;
+import com.paraparp.realestatestats.services.IdealistaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,4 +23,6 @@ public class GetStatsController {
     public List<Map<String, Object>> getStatsFromIdealista() {
         return idealistaService.getStatistics();
     }
+
+
 }

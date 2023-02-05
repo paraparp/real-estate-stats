@@ -1,4 +1,4 @@
-package com.paraparp.realstatestats;
+package com.paraparp.realestatestats;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

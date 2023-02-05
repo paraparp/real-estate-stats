@@ -1,4 +1,4 @@
-package com.paraparp.realstatestats.errors;
+package com.paraparp.realestatestats.errors;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

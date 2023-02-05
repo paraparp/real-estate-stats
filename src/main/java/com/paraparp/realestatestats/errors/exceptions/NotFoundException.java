@@ -1,4 +1,4 @@
-package com.paraparp.realstatestats.errors.exceptions;
+package com.paraparp.realestatestats.errors.exceptions;
 
 public class NotFoundException extends Exception {
 

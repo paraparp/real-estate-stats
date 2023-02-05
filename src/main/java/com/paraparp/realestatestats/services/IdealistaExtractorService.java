@@ -1,7 +1,7 @@
-package com.paraparp.realstatestats.services;
+package com.paraparp.realestatestats.services;
 
-import com.paraparp.realstatestats.client.HttpClient;
-import com.paraparp.realstatestats.model.entity.MainObject;
+import com.paraparp.realestatestats.client.HttpClient;
+import com.paraparp.realestatestats.model.entity.MainObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -15,12 +15,12 @@ public class IdealistaExtractorService {
 
     private final HttpClient httpClient;
 
-    public MainObject getIdealistaStats(String uri){
+    public MainObject getIdealistaStats(String uri) {
 
         return (MainObject) this.httpClient.executeGet(uri, getEntity(), MainObject.class);
     }
 
-    private  HttpEntity getEntity() {
+    private HttpEntity getEntity() {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("accept-language", "es-ES,es;q=0.9,gl;q=0.8,en;q=0.7,de;q=0.6");

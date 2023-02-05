@@ -1,4 +1,4 @@
-package com.paraparp.realstatestats.model.entity;
+package com.paraparp.realestatestats.model.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,4 +1,4 @@
-package com.paraparp.realstatestats.client;
+package com.paraparp.realestatestats.client;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
