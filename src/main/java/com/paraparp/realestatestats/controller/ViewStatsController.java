@@ -1,10 +1,11 @@
 package com.paraparp.realestatestats.controller;
 
 
+import com.paraparp.realestatestats.repository.csv.GetDataCSV;
 import com.paraparp.realestatestats.services.IdealistaService;
-import com.paraparp.realestatestats.services.RealEstateData;
-import com.paraparp.realestatestats.services.StoreDataCSV;
-import com.paraparp.realestatestats.services.StoreDataExcell;
+import com.paraparp.realestatestats.model.entities.RealEstateData;
+import com.paraparp.realestatestats.repository.csv.StoreDataCSV;
+import com.paraparp.realestatestats.repository.xlsx.StoreDataXLSX;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -21,13 +22,15 @@ public class ViewStatsController {
 
     private final IdealistaService idealistaService;
     private final StoreDataCSV storeDataCSV;
-    private final StoreDataExcell storeDataExcell;
+    private final GetDataCSV getDataCSV;
+
+    private final StoreDataXLSX storeDataExcell;
     @GetMapping("/datos")
     public String getStatsFromIdealista(Model model) {
 
         List<Map<String, Object>> statistics = idealistaService.getStatistics();
-        storeDataCSV.storeInCSV (idealistaService.getStatisticsAsArray());
-        storeDataExcell.storeInXls(idealistaService.getStatisticsAsObject());
+        storeDataCSV.insert(idealistaService.getStatisticsAsArray());
+        storeDataExcell.insert(idealistaService.getStatisticsAsObject());
         model.addAttribute("datos", statistics);
         return "datos";
 
@@ -35,7 +38,7 @@ public class ViewStatsController {
 
     @GetMapping("/datos2")
     public String getStatsFromIdealista2(Model model) {
-        List<RealEstateData> fromCSV = storeDataCSV.getFromCSV();
+        List<RealEstateData> fromCSV = getDataCSV.get();
         fromCSV.sort(new RealEstateData());
         model.addAttribute("datos", fromCSV);
         return "datos2";

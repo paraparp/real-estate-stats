@@ -1,4 +1,4 @@
-package com.paraparp.realestatestats.services;
+package com.paraparp.realestatestats.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

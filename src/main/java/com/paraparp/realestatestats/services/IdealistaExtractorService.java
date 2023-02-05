@@ -1,7 +1,7 @@
 package com.paraparp.realestatestats.services;
 
 import com.paraparp.realestatestats.client.HttpClient;
-import com.paraparp.realestatestats.model.entity.MainObject;
+import com.paraparp.realestatestats.model.idealista.MainObjectIdealistaDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -15,9 +15,9 @@ public class IdealistaExtractorService {
 
     private final HttpClient httpClient;
 
-    public MainObject getIdealistaStats(String uri) {
+    public MainObjectIdealistaDTO getIdealistaStats(String uri) {
 
-        return (MainObject) this.httpClient.executeGet(uri, getEntity(), MainObject.class);
+        return (MainObjectIdealistaDTO) this.httpClient.executeGet(uri, getEntity(), MainObjectIdealistaDTO.class);
     }
 
     private HttpEntity getEntity() {

@@ -1,8 +1,9 @@
 package com.paraparp.realestatestats.services;
 
-import com.paraparp.realestatestats.model.entity.Data;
-import com.paraparp.realestatestats.model.entity.Item;
-import com.paraparp.realestatestats.model.entity.MainObject;
+import com.paraparp.realestatestats.model.entities.RealEstateData;
+import com.paraparp.realestatestats.model.idealista.DataDTO;
+import com.paraparp.realestatestats.model.idealista.ItemDTO;
+import com.paraparp.realestatestats.model.idealista.MainObjectIdealistaDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,9 +29,9 @@ public class IdealistaService {
 
     public List<Map<String, Object>> getStatistics() {
 
-        MainObject responseRosales = extractorService.getIdealistaStats(urlRiazorRosales);
-        MainObject responseCiudadVieja = extractorService.getIdealistaStats(urlCiudadVieja);
-        MainObject responseTotalCoruna = extractorService.getIdealistaStats(urlTotalCoruna);
+        MainObjectIdealistaDTO responseRosales = extractorService.getIdealistaStats(urlRiazorRosales);
+        MainObjectIdealistaDTO responseCiudadVieja = extractorService.getIdealistaStats(urlCiudadVieja);
+        MainObjectIdealistaDTO responseTotalCoruna = extractorService.getIdealistaStats(urlTotalCoruna);
 
         Map<String, Object> statsRosales = getSimplifyStats(responseRosales);
         Map<String, Object> statsCiudadVieja = getSimplifyStats(responseCiudadVieja);
@@ -41,22 +42,28 @@ public class IdealistaService {
 
     public List<String[]> getStatisticsAsArray() {
 
-        MainObject responseRosales = extractorService.getIdealistaStats(urlRiazorRosales);
-        MainObject responseCiudadVieja = extractorService.getIdealistaStats(urlCiudadVieja);
-        MainObject responseTotalCoruna = extractorService.getIdealistaStats(urlTotalCoruna);
+        List<String[]> data = new ArrayList<>();
 
-        String[] statsRosales = getSimplifyStatsAsArray(responseRosales);
-        String[] statsCiudadVieja = getSimplifyStatsAsArray(responseCiudadVieja);
-        String[] statsTotalCoruna = getSimplifyStatsAsArray(responseTotalCoruna);
+        for (RealEstateData realEstateData : getStatisticsAsObject()) {
+            data.add(new String[]{
+                    realEstateData.getDate().toString(),
+                    realEstateData.getLocation(),
+                    String.valueOf(realEstateData.getAmount()),
+                    String.valueOf(realEstateData.getType0()),
+                    String.valueOf(realEstateData.getPercentil13()),
+                    String.valueOf(realEstateData.getPercentil33()),
+                    String.valueOf(realEstateData.getPriceM2())}
+            );
+        }
 
-        return List.of(statsRosales, statsCiudadVieja, statsTotalCoruna);
+        return data;
     }
 
     public List<RealEstateData> getStatisticsAsObject() {
 
-        MainObject responseRosales = extractorService.getIdealistaStats(urlRiazorRosales);
-        MainObject responseCiudadVieja = extractorService.getIdealistaStats(urlCiudadVieja);
-        MainObject responseTotalCoruna = extractorService.getIdealistaStats(urlTotalCoruna);
+        MainObjectIdealistaDTO responseRosales = extractorService.getIdealistaStats(urlRiazorRosales);
+        MainObjectIdealistaDTO responseCiudadVieja = extractorService.getIdealistaStats(urlCiudadVieja);
+        MainObjectIdealistaDTO responseTotalCoruna = extractorService.getIdealistaStats(urlTotalCoruna);
 
         RealEstateData statsRosales = getSimplifyStatsObject(responseRosales);
         RealEstateData statsCiudadVieja = getSimplifyStatsObject(responseCiudadVieja);
@@ -64,10 +71,11 @@ public class IdealistaService {
 
         return List.of(statsRosales, statsCiudadVieja, statsTotalCoruna);
     }
-    private Map<String, Object> getSimplifyStats(MainObject body) {
 
-        Data data = body.getData();
-        List<Item> items = data.map.items;
+    private Map<String, Object> getSimplifyStats(MainObjectIdealistaDTO body) {
+
+        DataDTO data = body.getData();
+        List<ItemDTO> items = data.map.items;
 
         List<Integer> list0 = items.stream().map(item -> item.ads).flatMap(Collection::stream).map(ad -> (int) ad.price).sorted().collect(Collectors.toList());
         int st0 = getMedianaStatistics(list0);
@@ -85,45 +93,26 @@ public class IdealistaService {
         response.put("Price_m2", getListingPriceByArea(data));
         return response;
     }
-    private RealEstateData getSimplifyStatsObject(MainObject body) {
 
-        Data data = body.getData();
-        List<Item> items = data.map.items;
+    private RealEstateData getSimplifyStatsObject(MainObjectIdealistaDTO body) {
+
+        DataDTO data = body.getData();
+        List<ItemDTO> items = data.map.items;
 
         List<Integer> sortedList = items.stream().map(item -> item.ads).flatMap(Collection::stream).map(ad -> (int) ad.price).sorted().collect(Collectors.toList());
         int st0 = getMedianaStatistics(sortedList);
         int st1_3 = getMedianaStatistics(sortedList.subList(0, sortedList.size() / 3));
         int st3_3 = getMedianaStatistics(sortedList.subList(2 * sortedList.size() / 3, sortedList.size()));
 
-        return new RealEstateData(LocalDate.now(), getLocation(data), getAmount(data),st0,st1_3,st3_3,getListingPriceByArea(data));
-    }
-    private String[] getSimplifyStatsAsArray(MainObject body) {
-
-        Data data = body.getData();
-        List<Item> items = data.map.items;
-
-        List<Integer> list0 = items.stream().map(item -> item.ads).flatMap(Collection::stream).map(ad -> (int) ad.price).sorted().collect(Collectors.toList());
-        double st0 = getMedianaStatistics(list0);
-        double st1_3 = getMedianaStatistics(list0.subList(0, list0.size() / 3));
-        double st3_3 = getMedianaStatistics(list0.subList(2 * list0.size() / 3, list0.size()));
-
-        return new String[]{
-                LocalDate.now().toString(),
-                getLocation(data),
-                getAmount(data).toString(),
-                String.valueOf(st0),
-                String.valueOf(st1_3),
-                String.valueOf(st3_3),
-                String.valueOf(getListingPriceByArea(data))
-        };
+        return new RealEstateData(LocalDate.now(), getLocation(data), getAmount(data), st0, st1_3, st3_3, getListingPriceByArea(data));
     }
 
 
-    private static Integer getListingPriceByArea(Data data) {
+    private static Integer getListingPriceByArea(DataDTO data) {
         return convertToInt(data.listingPriceByArea.split(" ")[2]);
     }
 
-    private  String getLocation(Data data) {
+    private String getLocation(DataDTO data) {
 
         String location = data.valueH1.replace(",", "-").split(" en ")[1].trim();
 
@@ -132,7 +121,8 @@ public class IdealistaService {
         collect.addFirst(first);
         return String.join(" - ", collect);
     }
-    private Integer getAmount(Data data) {
+
+    private Integer getAmount(DataDTO data) {
         return convertToInt(data.valueH1.split(" ")[0].trim());
     }
 
@@ -141,11 +131,11 @@ public class IdealistaService {
         int n = list.size();
         double median;
         if (n % 2 == 0) {
-            int m1 = list.get(n/2 - 1);
-            int m2 = list.get(n/2);
+            int m1 = list.get(n / 2 - 1);
+            int m2 = list.get(n / 2);
             median = (m1 + m2) / 2.0;
         } else {
-            median = list.get((n-1)/2);
+            median = list.get((n - 1) / 2);
         }
 
         return convertToInt(String.valueOf(median));
