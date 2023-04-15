@@ -138,6 +138,6 @@ public class IdealistaService {
             median = list.get((n - 1) / 2);
         }
 
-        return convertToInt(String.valueOf(median));
+        return convertToInt(String.valueOf(median).replace(".0","").trim());
     }
 }

@@ -2,6 +2,7 @@ package com.paraparp.realestatestats.controller;
 
 
 import com.paraparp.realestatestats.repository.csv.GetDataCSV;
+import com.paraparp.realestatestats.repository.jdbc.DataService;
 import com.paraparp.realestatestats.services.IdealistaService;
 import com.paraparp.realestatestats.model.entities.RealEstateData;
 import com.paraparp.realestatestats.repository.csv.StoreDataCSV;
@@ -23,17 +24,19 @@ public class ViewStatsController {
     private final IdealistaService idealistaService;
     private final StoreDataCSV storeDataCSV;
     private final GetDataCSV getDataCSV;
-
     private final StoreDataXLSX storeDataExcell;
+    private final DataService dataService;
+
     @GetMapping("/datos")
     public String getStatsFromIdealista(Model model) {
 
         List<Map<String, Object>> statistics = idealistaService.getStatistics();
         storeDataCSV.insert(idealistaService.getStatisticsAsArray());
-        storeDataExcell.insert(idealistaService.getStatisticsAsObject());
+        List<RealEstateData> statisticsAsObject = idealistaService.getStatisticsAsObject();
+        storeDataExcell.insert(statisticsAsObject);
         model.addAttribute("datos", statistics);
+        dataService.save(statisticsAsObject);
         return "datos";
-
     }
 
     @GetMapping("/datos2")
@@ -42,6 +45,5 @@ public class ViewStatsController {
         fromCSV.sort(new RealEstateData());
         model.addAttribute("datos", fromCSV);
         return "datos2";
-
     }
 }

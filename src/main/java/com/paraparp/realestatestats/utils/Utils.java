@@ -11,7 +11,7 @@ public class Utils {
         NumberFormat format = NumberFormat.getInstance(new Locale("es", "ES"));
         Number number;
         try {
-            number = format.parse(str.replace(".0","").trim());
+            number = format.parse(str);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
