@@ -12,27 +12,31 @@
 <body>
 
 <h1 class="text-center">STATISTICS - A Coruña </h1>
-
 <table class="table table-striped table-sm">
+
+
     <table class="table">
         <thead class="thead-dark">
         <tr>
+            <th>Date</th>
             <th>Location</th>
             <th>Price m2</th>
             <th>Amount</th>
-            <th>Total</th>
+            <th>Median Price</th>
             <th>Percentile 1/3</th>
             <th>Percentile 3/3</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="datos : ${datos}">
-            <td th:text="${datos.Location}"></td>
-            <td th:text="${datos.Price_m2}"></td>
-            <td th:text="${datos.Amount}"></td>
-            <td th:text="${datos.Type0}"></td>
-            <td th:text="${datos.Percentil13}"></td>
-            <td th:text="${datos.Percentil33}"></td>
+        <tr th:each="dataItem : ${data}">
+            <td th:text="${dataItem.getDate()}"></td>
+            <td th:text="${dataItem.getLocation()}"></td>
+            <td th:text="${dataItem.getPriceM2()}"></td>
+            <td th:text="${dataItem.getAmount()}"></td>
+            <td th:text="${dataItem.getMedianPrice()}"></td>
+            <td th:text="${dataItem.getFirstQuartilePrice()}"></td>
+            <td th:text="${dataItem.getThirdQuartilePrice()}"></td>
+
         </tr>
         </tbody>
 

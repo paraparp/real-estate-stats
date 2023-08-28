@@ -1,12 +1,12 @@
 package com.paraparp.realestatestats.controller;
 
 
-import com.paraparp.realestatestats.repository.csv.GetDataCSV;
+import com.paraparp.realestatestats.repository.csv.CSVDataReader;
 import com.paraparp.realestatestats.repository.jdbc.DataService;
 import com.paraparp.realestatestats.services.IdealistaService;
 import com.paraparp.realestatestats.model.entities.RealEstateData;
-import com.paraparp.realestatestats.repository.csv.StoreDataCSV;
-import com.paraparp.realestatestats.repository.xlsx.StoreDataXLSX;
+import com.paraparp.realestatestats.repository.csv.CSVDataWriter;
+import com.paraparp.realestatestats.repository.xlsx.XLSXDataWriter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -16,34 +16,44 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+import static com.paraparp.realestatestats.model.mapper.RealEstateDataMapper.*;
+import static com.paraparp.realestatestats.utils.Constants.CSV_FILE_NAME;
+import static com.paraparp.realestatestats.utils.Constants.XLSX_FILE_NAME;
+
+@Controller()
 @Slf4j
 @RequiredArgsConstructor
 public class ViewStatsController {
 
     private final IdealistaService idealistaService;
-    private final StoreDataCSV storeDataCSV;
-    private final GetDataCSV getDataCSV;
-    private final StoreDataXLSX storeDataExcell;
+    private final CSVDataWriter csvDataWriter;
+    private final CSVDataReader csvDataReader;
+    private final XLSXDataWriter xlsxDataWriter;
     private final DataService dataService;
 
-    @GetMapping("/datos")
-    public String getStatsFromIdealista(Model model) {
+    @GetMapping("/statistics/today")
+    public String getTodayStatistics(Model model) {
 
         List<Map<String, Object>> statistics = idealistaService.getStatistics();
-        storeDataCSV.insert(idealistaService.getStatisticsAsArray());
-        List<RealEstateData> statisticsAsObject = idealistaService.getStatisticsAsObject();
-        storeDataExcell.insert(statisticsAsObject);
-        model.addAttribute("datos", statistics);
-        dataService.save(statisticsAsObject);
-        return "datos";
+
+        List<String[]> dataArray = mapToArrayList(statistics);
+        csvDataWriter.execute(dataArray, CSV_FILE_NAME);
+
+        List<RealEstateData> realEstateDataList = mapToRealEstateDataList(statistics);
+        xlsxDataWriter.execute(realEstateDataList, XLSX_FILE_NAME);
+
+        dataService.save(realEstateDataList);
+
+        model.addAttribute("data", realEstateDataList);
+        return "statistics";
     }
 
-    @GetMapping("/datos2")
-    public String getStatsFromIdealista2(Model model) {
-        List<RealEstateData> fromCSV = getDataCSV.get();
-        fromCSV.sort(new RealEstateData());
-        model.addAttribute("datos", fromCSV);
-        return "datos2";
+    @GetMapping("/statistics/all")
+    public String getAllStatistics(Model model) {
+        List<Map<String, String>> fromCSV = csvDataReader.execute(CSV_FILE_NAME);
+        List<RealEstateData> realEstateData = mapToRealEstateDataListFromStrings(fromCSV);
+        model.addAttribute("data", realEstateData);
+
+        return "statistics";
     }
 }

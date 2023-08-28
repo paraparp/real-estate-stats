@@ -2,10 +2,11 @@ package com.paraparp.realestatestats.model.idealista;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
 import java.util.List;
 
-@lombok.Data
+@Data
 public class MainObjectIdealistaDTO {
 
     @JsonProperty("result")

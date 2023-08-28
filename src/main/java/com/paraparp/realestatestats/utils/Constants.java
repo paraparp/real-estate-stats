@@ -6,5 +6,4 @@ public class Constants {
 
     public static final String XLSX_FILE_NAME = "files/data.xlsx";
 
-
 }

@@ -25,18 +25,18 @@ public class RealEstateData implements Comparator<RealEstateData>, Serializable 
     private LocalDate date;
     private String location;
     private int amount;
-    private int type0;
-    private int percentil13;
-    private int percentil33;
+    private int medianPrice;
+    private int firstQuartilePrice;
+    private int thirdQuartilePrice;
     private int priceM2;
 
-    public RealEstateData(LocalDate date, String location, int amount, int type0, int percentil13, int percentil33, int priceM2) {
+    public RealEstateData(LocalDate date, String location, int amount, int medianPrice, int firstQuartilePrice, int thirdQuartilePrice, int priceM2) {
         this.date = date;
         this.location = location;
         this.amount = amount;
-        this.type0 = type0;
-        this.percentil13 = percentil13;
-        this.percentil33 = percentil33;
+        this.medianPrice = medianPrice;
+        this.firstQuartilePrice = firstQuartilePrice;
+        this.thirdQuartilePrice = thirdQuartilePrice;
         this.priceM2 = priceM2;
     }
 

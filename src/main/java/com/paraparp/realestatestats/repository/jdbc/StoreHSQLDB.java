@@ -24,7 +24,7 @@ public class StoreHSQLDB {
             Statement statement = connection.createStatement();
 
             // Create a table
-            statement.executeUpdate("CREATE TABLE real_estate_data ( date DATE, location VARCHAR(255), amount INTEGER, type0 INTEGER,  percentil13 INTEGER, percentil33 INTEGER, price_m2 INTEGER, PRIMARY KEY (date, location))")
+            statement.executeUpdate("CREATE TABLE real_estate_data ( date DATE, location VARCHAR(255), amount INTEGER, median INTEGER,  percentil13 INTEGER, percentil33 INTEGER, price_m2 INTEGER, PRIMARY KEY (date, location))")
             ;
 
             // Close the connection

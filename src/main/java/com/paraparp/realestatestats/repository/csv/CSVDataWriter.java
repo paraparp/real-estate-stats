@@ -7,17 +7,14 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.paraparp.realestatestats.utils.Constants.CSV_FILE_NAME;
-
 
 @Service
-public class StoreDataCSV {
+public class CSVDataWriter {
 
     private final Set<String> existingIds = new HashSet<>();
 
-    public void insert(List<String[]> data) {
+    public void execute(List<String[]> data, String csvFileName) {
 
-        String csvFileName = CSV_FILE_NAME;
         File csvOutputFile = new File(csvFileName);
         if (!csvFileName.endsWith(".csv")) {
             throw new UnsupportedOperationException("The file is not an XLSX file");

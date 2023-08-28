@@ -15,7 +15,7 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/")
-public class GetStatsController {
+public class GenerateStatsController {
 
     private final IdealistaService idealistaService;
 
