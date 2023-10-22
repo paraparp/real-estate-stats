@@ -9,13 +9,13 @@ import org.springframework.web.client.RestTemplate;
 
 @RequiredArgsConstructor
 @Service
-public class HttpClient{
+public class HttpClient {
 
-        private final RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
-        public  Object executeGet(String uri, HttpEntity<?>  request, Class<?> clazz){
-            ResponseEntity<?> exchange = restTemplate.exchange(uri, HttpMethod.GET, request, clazz);
-            return exchange.getBody();
+    public Object executeGet(String uri, HttpEntity<?> request, Class<?> clazz) {
+        ResponseEntity<?> exchange = restTemplate.exchange(uri, HttpMethod.GET, request, clazz);
+        return exchange.getBody();
 
-        }
+    }
 }
