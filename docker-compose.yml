@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  invoice-consumer:
+    build: ./
+    ports:
+      - 8080:8080
