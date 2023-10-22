@@ -1,5 +1,5 @@
 # Build stage
-FROM openjdk:20-jdk AS build
+FROM maven:3.9.2-amazoncorretto-20 AS builder
 COPY . .
 RUN mvn clean package -DskipTests
 
@@ -8,5 +8,5 @@ FROM openjdk:20-jdk
 COPY --from=build /target/realStateStats-0.0.1-SNAPSHOT.jar app.jar
 ENV PORT=8080
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar", "realStateStats-0.0.1-SNAPSHOT.jar"]
 
